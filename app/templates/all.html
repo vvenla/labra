@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Kaikki mittaukset</h1>
+    {% for measurement in measurements %}
+    <div>
+        <p>{{ measurement.name }} mittaustulos:
+            <b>{{ measurement.result }} {{ measurement.unit }}</b>
+        </p>
+        <p>(Viitearvo: 
+            <b>{{ measurement.reference }} {{ measurement.unit }}</b>)
+        </p>
+    </div>
+    {% endfor %}
+{% endblock %}

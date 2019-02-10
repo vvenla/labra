@@ -1,0 +1,28 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Labrasovellus</title>
+        {% else %}
+        <title>Labrasovellus</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            Labrasovellus:
+            <a href="{{ url_for('index') }}">Etusivu</a>
+            <a href="{{ url_for('all') }}">Mittaukset</a>
+            <a href="{{ url_for('new') }}">Uusi</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
