@@ -4,12 +4,18 @@
     <h1>Kaikki mittaukset</h1>
     {% for measurement in measurements %}
     <div>
-        <p>{{ measurement.name }} mittaustulos:
+        <p>Mittaustulos: {{ measurement.name }}
             <b>{{ measurement.result }} {{ measurement.unit }}</b>
         </p>
         <p>(Viitearvo: 
             <b>{{ measurement.reference }} {{ measurement.unit }}</b>)
         </p>
+        <form action="{{ url_for('delete', id=measurement.id) }}" method="post">
+            <button name="deleteBtn" type="submit">Poista</button>
+        </form>
+        <form action="{{ url_for('edit', id=measurement.id) }}" method="post">
+            <button name="editBtn" type="submit">Muokkaa</button>
+        </form>
     </div>
     {% endfor %}
 {% endblock %}

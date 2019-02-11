@@ -9,3 +9,10 @@ class NewMeasurementForm(FlaskForm):
     result = StringField('Mittaustulos', validators=[DataRequired()])
     reference = StringField('Viitearvo')
     submit = SubmitField('Tallenna mittaus')
+
+class EditForm(FlaskForm):
+    name = StringField('Nimi', validators=[DataRequired()])
+    unit = StringField('Yksikkö', validators=[DataRequired()])
+    result = StringField('Mittaustulos', validators=[DataRequired()])
+    reference = StringField('Viitearvo')
+    submit = SubmitField('Tallenna mittaus')
