@@ -9,8 +9,8 @@ was just to get the application up and running.
 * Tests
 
 
-### Instructions for user
-* CLone the repository, and go to the labra-directory
+### How to run it
+* Clone the repository, and go to directory "labra"
 * Run following commands to set virtual environment, install flask and run the app:
 ```shell
 python3 -m venv venv
