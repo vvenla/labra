@@ -1,20 +1,18 @@
-from flask import render_template, redirect, flash, url_for, jsonify
+from flask import render_template, redirect, flash, url_for, request
 from app import app
-from app.forms import NewMeasurementForm, EditForm
+from app.forms import MeasurementForm
 import json
 
 
 datafile = 'data.json'
 json_data=open(datafile).read()
-data = json.loads(json_data)
-print(data)
+measurements = json.loads(json_data)
+print(measurements)
 
 
 ## Dummy method for choosing the index for new measurement
 def new_id():
-    list = [i['id'] for i in data]
-    print(list)
-    print(max(list))
+    list = [i['id'] for i in measurements]
     return max(list) + 1
 
 
@@ -34,18 +32,16 @@ def all():
     return render_template(
         'all.html',
         title='Kaikki mittaukset',
-        measurements=data
+        measurements=measurements
     )
 
 
 ## Adding new measurement
 @app.route('/new', methods=['GET', 'POST'])
 def new():
-    global current_id
-    form = NewMeasurementForm()
+    form = MeasurementForm()
     if form.validate_on_submit():
-
-        data.append({
+        measurements.append({
             'id': new_id(),
             'name': form.name.data,
             'unit': form.unit.data,
@@ -54,7 +50,7 @@ def new():
             })
 
         with open('data.json', 'w') as outfile:  
-            json.dump(data, outfile)
+            json.dump(measurements, outfile)
 
         flash('Lisätty uusi mittaus: {}'.format(
             form.name.data))
@@ -63,54 +59,46 @@ def new():
 
 
 ## Deleting a measurement by id
-@app.route('/delete/<int:id>', methods=['DELETE', 'POST'])
+@app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
-    for i in range(len(data)):
-        if data[i]['id'] == id:
-            data.pop(i)
+    for i in range(len(measurements)):
+        if measurements[i]['id'] == id:
+            measurements.pop(i)
             break
 
     with open('data.json', 'w') as outfile:  
-            json.dump(data, outfile)
+            json.dump(measurements, outfile)
 
     flash('Mittaus poistettu'.format())
 
     return render_template(
         'all.html',
         title='Kaikki mittaukset',
-        measurements=data
+        measurements=measurements
     )
 
 
-## Editing a measurement by id
+## Editing a measurement by id (TODO: Prefilled form)
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
-    for i in range(len(data)):
-        if data[i]['id'] == id:
-            edit_data = data[i]
-
-    form = EditForm()
+    for i in range(len(measurements)):
+        if measurements[i]['id'] == id:
+            edit_data = measurements[i]
+    form = MeasurementForm()
 
     if form.validate_on_submit():
-        form.name.data = edit_data.name
-        form.unit.data = edit_data.name
-        print(edit_data)
-        print(edit_data.name)
-        
-
-
+        edit_data['name'] = form.name.data
+        edit_data['unit'] = form.unit.data
+        edit_data['result'] = form.result.data
+        edit_data['reference'] = form.reference.data
 
         with open('data.json', 'w') as outfile:  
-            json.dump(data, outfile)
+            json.dump(measurements, outfile)
 
         flash('Mittaus muokattu: {}'.format(
             form.name.data))
-        return render_template(
-            'all.html',
-            title='Kaikki mittaukset',
-            measurements=data
-        )
-    return render_template('edit.html', title='Muokkaa', form=form, data=edit_data)
+        return redirect(url_for('index'))
+    return render_template('edit.html', title='Muokkaa', form=form, id=id)
 
 
 

@@ -29,9 +29,6 @@
         <p>
             {{ form.reference.label }}<br>
             {{ form.reference(size=32) }}
-            {% for error in form.reference.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
     </form>
