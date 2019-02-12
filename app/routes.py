@@ -12,9 +12,10 @@ print(measurements)
 
 ## Dummy method for choosing the index for new measurement
 def new_id():
-    list = [i['id'] for i in measurements]
-    return max(list) + 1
-
+    if len(measurements) > 0:
+        list = [i['id'] for i in measurements]
+        return max(list) + 1
+    return 0
 
 ## Front page
 @app.route('/')
@@ -84,9 +85,13 @@ def edit(id):
     for i in range(len(measurements)):
         if measurements[i]['id'] == id:
             edit_data = measurements[i]
-    form = MeasurementForm()
+    form = MeasurementForm(obj=edit_data)
+
 
     if form.validate_on_submit():
+        #form.populate_obj(edit_data)
+
+        ## Dummy way for doing this
         edit_data['name'] = form.name.data
         edit_data['unit'] = form.unit.data
         edit_data['result'] = form.result.data

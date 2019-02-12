@@ -1,1 +1,1 @@
-[{"id": 3, "name": "indeksikokeilu", "unit": "da", "result": "23", "reference": ""}, {"id": 4, "name": "testi", "unit": "jh", "result": "k", "reference": ""}, {"id": 5, "name": "Hemoglobiini", "unit": "g/l", "result": "134", "reference": "155"}]
+[{"id": 0, "name": "Hemoglobiini", "unit": "g/l", "result": "134", "reference": "155"}, {"id": 2, "name": "Muokattu", "unit": "g", "result": "123", "reference": "321"}, {"id": 3, "name": "Kolesteroli", "unit": "mmol/l", "result": "3,4", "reference": "3"}]
